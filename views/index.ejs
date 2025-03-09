@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InsiderBoard</title>
 </head>
 <body>
   <header>
@@ -12,29 +13,31 @@
       <a href="/log-in">Log In</a>
     </nav>
   </header>
-  <% if (locals.user) {%>
-    <h1>WELCOME BACK <%= user.first_name %></h1>
-    <form action="/messages" method="POST">
-      <input type="text" name="title" placeholder="Title" required>
-      <textarea name="text" placeholder="Write your message..." required></textarea>
-      <button type="submit">Post</button>
-  </form>
-  <% if (user && !user.membership) { %>
-    <p><a href="/join-club">Be a member</a> for more exclusive perks.</p>
-  <% } %>
-
-    <a href="/log-out">LOG OUT</a>
-  <% } else { %>
-    <ul>
-        <% messages.forEach(message => { %>
-            <li>
-                <strong><%= message.title %></strong> - <%= message.text %>
-                <% if (user && user.membership) { %>
-                    <p>Posted by: <%= message.author %> on <%= message.created_at %></p>
-                <% } %>
-            </li>
-        <% }) %>
-    </ul>
-  <%}%>
+  <main>
+    <% if (locals.user) {%>
+      <h1>WELCOME BACK <%= user.first_name %></h1>
+      <form action="/messages" method="POST">
+          <input type="text" name="title" placeholder="Title" required>
+          <textarea name="text" placeholder="Write your message..." required></textarea>
+          <button type="submit">Post</button>
+      </form>
+      <% if (user && !user.membership) { %>
+        <p><a href="/join-club">Be a member</a> for more exclusive perks.</p>
+      <% } %>
+  
+      <a href="/log-out">LOG OUT</a>
+    <% } %>
+      <h2>Messages</h2>
+      <ul>
+          <% messages.forEach(message => { %>
+              <li>
+                  <strong><%= message.title %></strong> - <%= message.text %>
+                  <% if (user && user.membership) { %>
+                      <p>Posted by: <%= message.author %> on <%= message.created_at %></p>
+                  <% } %>
+              </li>
+          <% }) %>
+      </ul>
+  </main>
 </body>
 </html>

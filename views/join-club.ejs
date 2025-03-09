@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Form</title>
+    <title>Join Club</title>
 </head>
 <body>
     <header>
         <div class="logo"><a href="/">InsiderBoard</a></div>
     </header>
-    <h1>Join the club</h1>
-    <form action="/join-club" method="POST">
-        <label for="passcode">
-            <span>Enter Secret Passcode:</span>
-            <input type="text" name="passcode" id="passcode" required>
-        </label>
-        <% if (locals.error) { %>
-            <p class="error"><%= error %></p>
-        <% } %>
-        <button type="submit">Submit</button>
-    </form>
+    <main>
+        <h1>Join The Club</h1>
+        <form action="/join-club" method="POST">
+            <label for="passcode">
+                <span>Enter Secret Passcode:</span>
+                <input type="text" name="passcode" id="passcode" required>
+            </label>
+            <% if (locals.error) { %>
+                <p class="error"><%= error %></p>
+            <% } %>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
     
 </body>
 </html>
