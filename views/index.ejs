@@ -8,10 +8,14 @@
 <body>
   <header>
     <div class="logo"><a href="/">InsiderBoard</a></div>
-    <nav>
-      <a href="/sign-up">Sign Up</a>
-      <a href="/log-in">Log In</a>
-    </nav>
+    <% if (!locals.user) {%>
+      <nav>
+        <a href="/sign-up">Sign Up</a>
+        <a href="/log-in">Log In</a>
+      </nav>
+    <% } else { %>
+      <a href="/log-out">Log Out</a>
+    <% } %>
   </header>
   <main>
     <% if (locals.user) {%>
@@ -22,10 +26,11 @@
           <button type="submit">Post</button>
       </form>
       <% if (user && !user.membership) { %>
-        <p><a href="/join-club">Be a member</a> for more exclusive perks.</p>
+        <p><a href="/join-club">Join a club</a></p>
       <% } %>
-  
-      <a href="/log-out">LOG OUT</a>
+      <% if (user && !user.is_admin) { %>
+        <p><a href="/admin">Be an admin</a> for exclusive privilege.</p>
+      <% } %>
     <% } %>
       <h2>Messages</h2>
       <ul>
