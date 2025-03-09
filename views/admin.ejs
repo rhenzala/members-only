@@ -11,10 +11,9 @@
     </header>
     <main>
         <h1>Be an Admin</h1>
-        <form action="/join-club" method="POST">
-            <p>To be an admin, you must enter the admin key.</p>
+        <form action="/admin" method="POST">
             <label for="adminKey">
-                <span>Enter Admin Key: <span class="indicator">*</span></span>
+                <span>Enter Key: <span class="indicator">*</span></span>
                 <input type="text" name="adminKey" id="adminKey">
             </label>
             <% if (locals.error) { %>
