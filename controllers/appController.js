@@ -91,6 +91,16 @@ exports.postJoinClub = async (req, res) => {
         res.render("join-club", { user: req.user, error: "Incorrect passcode." });
     }
 }
+exports.getAdmin = (req, res) => res.render("admin")
+exports.postAdmin = async (req, res) => {
+    const adminKey = req.body.adminKey;
+    if (adminKey === process.env.ADMIN_KEY) {
+        await pool.query("UPDATE users SET is_admin = TRUE WHERE id = $1", [req.user.id]);
+        res.redirect("/");
+    } else {
+        res.render("admin", { user: req.user, error: "Incorrect key." });
+    }
+}
 
 exports.getSignUp = (req, res) => {
     res.render("signup");

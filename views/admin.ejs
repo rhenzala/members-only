@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Club</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="/">InsiderBoard</a></div>
+    </header>
+    <main>
+        <h1>Be an Admin</h1>
+        <form action="/join-club" method="POST">
+            <p>To be an admin, you must enter the admin key.</p>
+            <label for="adminKey">
+                <span>Enter Admin Key: <span class="indicator">*</span></span>
+                <input type="text" name="adminKey" id="adminKey">
+            </label>
+            <% if (locals.error) { %>
+                <p class="error"><%= error %></p>
+            <% } %>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    
+</body>
+</html>
