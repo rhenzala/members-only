@@ -14,5 +14,6 @@ appRouter.post("/sign-up", appController.postSignUp);
 appRouter.post("/log-in", appController.postLogIn);
 appRouter.get("/join-club", appController.getJoinClub);
 appRouter.post("/join-club", appController.postJoinClub);
+appRouter.get("/log-in", appController.getLogIn);
 
 module.exports = appRouter

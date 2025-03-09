@@ -37,10 +37,6 @@ const validateUser = [
         })
 ];
 
-exports.postLogIn = passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/"
-  })
 
 exports.getHome = async (req, res) => {
     try {
@@ -76,6 +72,46 @@ exports.postMessages = async (req, res) => {
       res.status(500).send("Error posting message");
     }
 }
+
+exports.getLogIn = (req, res) => res.render("login");
+
+exports.postLogIn = async (req, res, next) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.render("index", { 
+            errors: ["Email and password are required."], 
+            oldInput: req.body 
+        });
+    }
+
+    try {
+        const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [username]);
+        if (rows.length === 0) {
+            return res.render("index", { 
+                errors: ["Invalid email or password."], 
+                oldInput: req.body 
+            });
+        }
+        const user = rows[0];
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.render("index", { 
+                errors: ["Invalid email or password."], 
+                oldInput: req.body 
+            });
+        }
+        // Authenticate user with Passport
+        req.login(user, (err) => {
+            if (err) return next(err);
+            return res.redirect("/");
+        });
+
+    } catch (err) {
+        console.error("Login error:", err);
+        res.status(500).send("Server error during login.");
+    }
+};
 
 exports.getJoinClub = (req, res) => res.render("join-club")
 exports.postJoinClub = async (req, res) => {
