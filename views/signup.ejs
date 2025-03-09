@@ -13,15 +13,15 @@
     <form action="" method="POST">
         <label for="firstname">
             <span>First Name</span>
-            <input id="firstname" name="firstname" placeholder="First name" type="text" required/>
+            <input id="firstname" name="firstname" placeholder="First name" type="text" value="<%= oldInput ? oldInput.firstname : '' %>" required/>
         </label>
         <label for="lastname">
             <span>Last Name</span>
-            <input id="lastname" name="lastname" placeholder="Last name" type="text" required/>
+            <input id="lastname" name="lastname" placeholder="Last name" type="text" value="<%= oldInput ? oldInput.lastname : '' %>" required/>
         </label>
         <label for="username">
             <span>E-Mail</span>
-            <input id="username" name="username" placeholder="email" type="email" required/>
+            <input id="username" name="username" placeholder="email" type="email" value="<%= oldInput ? oldInput.username : '' %>" required/>
         </label>
         <label for="password">
             <span>Password</span>
@@ -31,7 +31,13 @@
             <span>Confirm Password</span>
             <input id="confirmPassword" name="confirmPassword" type="password" required />
         </label>
-        
+        <% if (locals.errors) { %>
+            <ul style="color: red;">
+                <% errors.forEach(function(error) { %>
+                    <li><%= error %></li>
+                <% }); %>
+            </ul>
+        <% } %>
         <button>Sign Up</button>
     </form>
 </body>

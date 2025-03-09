@@ -4,6 +4,38 @@ const passport = require("../config/auth");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 
+const alphaErr = "must only contain letters.";
+const lengthErr = "must be at least 1 character.";
+
+// Sanitize user input when signing up
+const validateUser = [
+  body("firstname").trim()
+    .isAlpha().withMessage(`First name ${alphaErr}`)
+    .isLength({ min: 1}).withMessage(`First name ${lengthErr}`),
+  body("lastname").trim()
+    .isAlpha().withMessage(`Last name ${alphaErr}`)
+    .isLength({ min: 1}).withMessage(`Last name ${lengthErr}`),
+    body("username").trim()
+    .isEmail().withMessage(`Invalid Email format.`)
+    .normalizeEmail(),
+    body("password")
+        .trim() 
+        .isLength({ min: 8 }).withMessage("Password must be at least 8 characters long")
+        .matches(/\d/).withMessage("Password must contain at least one number")
+        .matches(/[A-Z]/).withMessage("Password must contain at least one uppercase letter")
+        .matches(/[a-z]/).withMessage("Password must contain at least one lowercase letter")
+        .matches(/[@$!%*?&\-.]/).withMessage("Password must contain at least one special character (@, $, !, %, *, ?, &, -, .)")
+        .escape(), 
+
+    body("confirmPassword")
+        .trim()
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error("Passwords do not match");
+            }
+            return true;
+        })
+];
 
 exports.postLogIn = passport.authenticate("local", {
     successRedirect: "/",
@@ -56,17 +88,31 @@ exports.postJoinClub = async (req, res) => {
     }
 }
 
-exports.getSignUp = (req, res) => res.render("signup")
-exports.postSignUp = async (req, res, next) => {
-    try {
-     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-     await pool.query("insert into users (first_name, last_name, email, password) values ($1, $2, $3, $4)", [req.body.firstname, req.body.lastname, req.body.username, hashedPassword]);
-     res.redirect("/");
-    } catch (error) {
-       console.error(error);
-       next(error);
+exports.getSignUp = (req, res) => {
+    res.render("signup");
+};
+
+// Validate the user input before submitting
+exports.postSignUp = [
+    validateUser,
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.render("signup", {
+                errors: errors.array().map(err => err.msg), 
+                oldInput: req.body 
+            });
+        }
+        try {
+         const hashedPassword = await bcrypt.hash(req.body.password, 10);
+         await pool.query("insert into users (first_name, last_name, email, password) values ($1, $2, $3, $4)", [req.body.firstname, req.body.lastname, req.body.username, hashedPassword]); 
+         res.redirect("/");
+        } catch (error) {
+           console.error(error);
+           next(error);
+        }
     }
-}
+]
 
 exports.getLogOut = (req, res, next) => {
     req.logout((err) => {
