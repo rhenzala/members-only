@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="/">InsiderBoard</a></div>
+  </header>
+  <% if (locals.user) {%>
+    <h1>WELCOME BACK <%= user.first_name %></h1>
+    <form action="/messages" method="POST">
+      <input type="text" name="title" placeholder="Title" required>
+      <textarea name="text" placeholder="Write your message..." required></textarea>
+      <button type="submit">Post</button>
+  </form>
+  <p><a href="/join-club">Be a member</a> for more exclusive perks.</p>
+    <ul>
+      <% messages.forEach(message => { %>
+          <li>
+              <strong><%= message.title %></strong> - <%= message.text %>
+              <% if (user && user.membership) { %>
+                  <p>Posted by: <%= message.author %> on <%= message.created_at %></p>
+              <% } %>
+          </li>
+      <% }) %>
+  </ul>
+    <a href="/log-out">LOG OUT</a>
+  <% } else { %>
+    
+    <h1>Log In</h1>
+    <form action="/log-in" method="POST">
+      <label for="username">
+        <span>E-mail</span>
+        <input id="username" name="username" placeholder="email" type="email" required/>
+      </label>
+      <label for="password">
+        <span>Password</span>
+        <input id="password" name="password" type="password" required/>
+      </label>
+      
+      <button type="submit">Log In</button>
+      <p>Don't have an account? <a href="/sign-up">Create a new one</a></p>
+    </form>
+  <%}%>
+</body>
+</html>
