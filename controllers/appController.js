@@ -137,3 +137,15 @@ exports.getLogOut = (req, res, next) => {
     });
 }
 
+exports.postDelete = async (req, res) => {
+  if (!req.user || !req.user.is_admin) return res.redirect("/");
+
+  try {
+      await pool.query("DELETE FROM messages WHERE id = $1", [req.params.id]);
+      res.redirect("/");
+  } catch (err) {
+      console.error(err);
+      res.redirect("/");
+  }
+}
+

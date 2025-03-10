@@ -17,5 +17,6 @@ appRouter.post("/join-club", appController.postJoinClub);
 appRouter.get("/log-in", appController.getLogIn);
 appRouter.get("/admin", appController.getAdmin);
 appRouter.post("/admin", appController.postAdmin);
+appRouter.post("/delete/:id", appController.postDelete);
 
 module.exports = appRouter
