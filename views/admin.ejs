@@ -12,17 +12,38 @@
     </header>
     <main class="main-center">
         <h1>Be an Admin</h1>
-        <form action="/admin" method="POST">
-            <label for="adminKey">
-                <span>Admin Key: <span class="indicator">*</span></span>
-                <input type="text" name="adminKey" id="adminKey">
-            </label>
-            <% if (locals.error) { %>
-                <p class="error"><%= error %></p>
-            <% } %>
-            <button type="submit">Submit</button>
-        </form>
+        <div class="container">
+            <article>
+                <p>Solve this riddle to get the admin key.</p>
+                <p class="question">Little things of everyday sorts, all can be found in a tennis court.</p>
+                <button type="button" id="toggleHintBtn">Show Hint</button>
+                <p id="hint" style="display: none;"><span>Hint:</span> It's something hidden within the words "a tennis court".</p>
+            </article>
+            <form action="/admin" method="POST">
+                <label for="adminKey">
+                    <span>Admin Key: <span class="indicator">*</span></span>
+                    <input type="text" name="adminKey" id="adminKey">
+                </label>
+                <% if (locals.error) { %>
+                    <p class="error"><%= error %></p>
+                <% } %>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </main>
+    <script>
+        const toggleHintBtn = document.getElementById('toggleHintBtn');
+        const hint = document.getElementById('hint');
     
+        toggleHintBtn.addEventListener('click', function () {
+            if (hint.style.display === 'none') {
+                hint.style.display = 'block'; 
+                toggleHintBtn.textContent = 'Hide Hint'; 
+            } else {
+                hint.style.display = 'none'; 
+                toggleHintBtn.textContent = 'Show Hint';
+            }
+        });
+    </script>  
 </body>
 </html>
