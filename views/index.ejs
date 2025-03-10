@@ -64,10 +64,19 @@
               <span>E-mail:</span>
               <input id="username" name="username" type="email" required/>
           </label>
-          <label for="password">
-              <span>Password:</span>
-              <input id="password" name="password" type="password" required/>
-          </label>
+          <label for="password" class="password-wrapper">
+            <span>Password:</span>
+            <div class="password-container">
+                <input id="password" name="password" type="password" required />
+                <span id="togglePassword" class="toggle-password">
+                   
+                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                    </svg>
+                </span>
+            </div>
+        </label>   
           <% if (locals.errors) { %>
               <p class="error"><%= error %></p>
           <% } %>
@@ -78,5 +87,16 @@
         </section>
     <% } %>
   </main>
+  <script>
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+
+      togglePassword.addEventListener('click', function () {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+
+          this.classList.toggle('active');
+      });
+  </script>
 </body>
 </html>
