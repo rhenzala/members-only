@@ -74,7 +74,7 @@ exports.postMessages = async (req, res) => {
     }
 }
 
-exports.getLogIn = (req, res) => res.render("login");
+exports.getLogIn = (req, res) => res.render("index");
 
 exports.postLogIn = passport.authenticate("local", {
     successRedirect: "/",

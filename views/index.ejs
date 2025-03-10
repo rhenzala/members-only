@@ -10,10 +10,7 @@
   <header>
     <div class="logo"><a href="/">InsiderBoard</a></div>
     <nav>
-      <% if (!locals.user) {%>
-        <a href="/sign-up">Sign Up</a>
-        <a href="/log-in">Log In</a>
-      <% } else { %>
+      <% if (locals.user) {%>
         <a href="/log-out">Log Out</a>
       <% } %>
     </nav>
@@ -22,45 +19,69 @@
   <main>
     <% if (locals.user) {%>
       <h1 class="greetings">WELCOME BACK <span class="name"><%= user.first_name %></span></h1>
-      <form action="/messages" method="POST" class="message-form">
-          <label for="title">
-            <span>Title: </span>
-            <input type="text" name="title" id="title" required>
+      <div class="container">
+        <section class="main-left">
+          <form action="/messages" method="POST" class="message-form">
+              <label for="title">
+                <span>Title: </span>
+                <input type="text" name="title" id="title" required>
+              </label>
+              <label for="text">
+                <span>Message: </span>
+                <textarea name="text" id="text" required></textarea>
+              </label>
+              <button type="submit">Post</button>
+          </form>
+          <ul class="invitation">
+            <% if (user && !user.membership) { %>
+              <li><a href="/join-club">Join a club</a></li>
+            <% } %>
+            <% if (user && !user.is_admin) { %>
+              <li><a href="/admin">Be an admin</a></li>
+            <% } %>
+          </ul>
+        </section>
+        <section class="main-right">
+          <h2>Messages</h2>
+          <ul class="message-list">
+              <% messages.forEach(message => { %>
+                  <li class="message-box">
+                      <span class="message-title"><%= message.title %></span>
+                      <% if (user && user.membership) { %>
+                          <p class="message-author">Posted by: <%= message.author %> on <%= message.created_at %></p>
+                      <% } %>
+                      <span class="message-text"><%= message.text %></span>
+                      <% if (user && user.is_admin) { %>
+                        <form action="/delete/<%= message.id %>" method="POST" class="delete-message">
+                            <button type="submit" class="delete">Delete</button>
+                        </form>
+                      <% } %>
+                  </li>
+              <% }) %>
+          </ul>
+        </section>
+      </div>
+    <% } else { %>
+      <section class="main-center">
+          <h1>Log In</h1>
+          <form action="/log-in" method="POST">
+          <label for="username">
+              <span>E-mail:</span>
+              <input id="username" name="username" type="email" required/>
           </label>
-          <label for="text">
-            <span>Message: </span>
-            <textarea name="text" id="text" required></textarea>
+          <label for="password">
+              <span>Password:</span>
+              <input id="password" name="password" type="password" required/>
           </label>
-          <button type="submit">Post</button>
-      </form>
-      <ul class="invitation">
-        <% if (user && !user.membership) { %>
-          <li><a href="/join-club">Join a club</a></li>
-        <% } %>
-        <% if (user && !user.is_admin) { %>
-          <li><a href="/admin">Be an admin</a></li>
-        <% } %>
-      </ul>
+          <% if (locals.errors) { %>
+              <p class="error"><%= error %></p>
+          <% } %>
+              
+          <button type="submit">Log In</button>
+          <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+          </form>
+        </section>
     <% } %>
-      <section>
-        <h2>Messages</h2>
-        <ul>
-            <% messages.forEach(message => { %>
-                <li class="message-box">
-                    <span class="message-title"><%= message.title %></span>
-                    <% if (user && user.membership) { %>
-                        <p class="message-author">Posted by: <%= message.author %> on <%= message.created_at %></p>
-                    <% } %>
-                    <span class="message-text"><%= message.text %></span>
-                    <% if (user && user.is_admin) { %>
-                      <form action="/delete/<%= message.id %>" method="POST">
-                          <button type="submit" class="delete">Delete</button>
-                      </form>
-                    <% } %>
-                </li>
-            <% }) %>
-        </ul>
-      </section>
   </main>
 </body>
 </html>
