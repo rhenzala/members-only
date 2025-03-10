@@ -18,18 +18,13 @@
   </header>
   <main>
     <% if (locals.user) {%>
-      <h1 class="greetings">WELCOME BACK <span class="name"><%= user.first_name %></span></h1>
+      <h1 class="greetings">Welcome Back, <span class="name"><%= user.first_name %></span></h1>
       <div class="container">
         <section class="main-left">
           <form action="/messages" method="POST" class="message-form">
-              <label for="title">
-                <span>Title: </span>
-                <input type="text" name="title" id="title" required>
-              </label>
-              <label for="text">
-                <span>Message: </span>
-                <textarea name="text" id="text" required></textarea>
-              </label>
+              <h2>Write a post</h2>
+                <input type="text" name="title" id="title" placeholder="Post title" required>
+                <textarea name="text" id="text" placeholder="What's on your mind?" required></textarea>
               <button type="submit">Post</button>
           </form>
           <ul class="invitation">
