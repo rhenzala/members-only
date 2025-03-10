@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Sign Up Form</title>
 </head>
 <body>
     <header>
         <div class="logo"><a href="/">InsiderBoard</a></div>
     </header>
-    <main>
+    <main class="main-center">
         <h1>Sign Up</h1>
         <form action="" method="POST">
             <label for="firstname">
                 <span>First Name <span class="indicator">*</span></span>
-                <input id="firstname" name="firstname" placeholder="First name" type="text" required/>
+                <input id="firstname" name="firstname" type="text" required/>
             </label>
             <label for="lastname">
                 <span>Last Name <span class="indicator">*</span></span>
-                <input id="lastname" name="lastname" placeholder="Last name" type="text" required/>
+                <input id="lastname" name="lastname" type="text" required/>
             </label>
             <label for="username">
                 <span>E-Mail <span class="indicator">*</span></span>
-                <input id="username" name="username" placeholder="email" type="email" required/>
+                <input id="username" name="username" type="email" required/>
             </label>
             <label for="password">
                 <span>Password <span class="indicator">*</span></span>
@@ -40,6 +41,7 @@
                 </ul>
             <% } %>
             <button>Sign Up</button>
+            <p>Already have an account? <a href="/log-in">Sign In</a></p>
         </form>
     </main>
 </body>

@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Log In Form</title>
 </head>
 <body>
     <header>
         <div class="logo"><a href="/">InsiderBoard</a></div>
     </header>
-    <main>
+    <main class="main-center">
         <h1>Log In</h1>
         <form action="/log-in" method="POST">
         <label for="username">
-            <span>E-mail</span>
-            <input id="username" name="username" placeholder="email" type="email" required/>
+            <span>E-mail:</span>
+            <input id="username" name="username" type="email" required/>
         </label>
         <label for="password">
-            <span>Password</span>
+            <span>Password:</span>
             <input id="password" name="password" type="password" required/>
         </label>
         <% if (locals.errors) { %>
@@ -25,7 +26,7 @@
         <% } %>
             
         <button type="submit">Log In</button>
-        <p>Don't have an account? <a href="/sign-up">Create a new one</a></p>
+        <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
         </form>
     </main>
 </body>
